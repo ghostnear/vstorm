@@ -1,0 +1,8 @@
+# Binaries for programs and plugins
+vstorm
+*.exe
+*.exe~
+*.so
+*.dylib
+*.dll
+vls.log
