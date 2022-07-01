@@ -1,30 +1,43 @@
 module vstorm
 
-import gg
 import gx
 
+[heap]
 struct StormContext
 {
 mut:
-	gg &gg.Context
+	win &StormWindow
+}
+
+// Default draw function
+pub fn storm_default_draw(mut app StormContext)
+{
+	mut ggc := &app.win.gg
+	ggc.begin()
+	
+	ggc.draw_rect_filled(10, 10, 60, 60, gx.blue)
+
+	ggc.end()
 }
 
 // Runs the context
 pub fn (mut app StormContext) run()
 {
-	app.gg.run()
+	app.win.run()
 }
 
 // Makes a new storm context for app usage
 pub fn new_storm_context() &StormContext {
+	// Declare all modules
 	mut app := &StormContext{
+		win: 0
+	}
+	app.win = &StormWindow{
 		gg: 0
 	}
-	app.gg = gg.new_context(
-		bg_color: gx.black
-		width: 960
-		height: 540
-		window_title: "VStorm app"
-	)
+
+	// Init all modules
+	app.win.init(app)
+
 	return app
 }
