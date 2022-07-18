@@ -65,6 +65,7 @@ pub fn (mut win StormWindow) init(parent &StormContext, args StormWindowConfig) 
 		height: args.height
 		window_title: args.title
 		init_fn: args.init_fn
+		fullscreen: args.fullscreen
 		frame_fn: storm_default_frame
 		event_fn: storm_default_event
 		font_bytes_normal: $embed_file('../assets/SourceCodePro-Regular.otf').to_bytes()
