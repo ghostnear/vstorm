@@ -13,7 +13,7 @@ mut:
 	functions map[string]fn(&Node)
 pub mut:
 	parent &Node = unsafe { 0 }
-	context &StormContext = unsafe { 0 }
+	context &AppContext = unsafe { 0 }
 }
 
 // Adds a component
@@ -37,7 +37,7 @@ pub fn (e Node) get_component(str string) voidptr {
 }
 
 // Changes context (internal use only)
-fn (mut e Node) change_context(newc &StormContext) {
+fn (mut e Node) change_context(newc &AppContext) {
 	e.context = newc
 	for _, mut x in e.children {
 		x.change_context(newc)

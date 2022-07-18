@@ -3,20 +3,36 @@ module vstorm
 import gx
 import gg
 
+// Used to initialise the window
+pub struct WindowConfig {
+pub mut:
+	title string
+	width int
+	height int
+	fullscreen bool
+	init_fn fn(&AppContext)
+}
+
 [heap]
-struct StormWindow {
+struct AppWindow {
 pub mut:
 	gg &gg.Context = unsafe { 0 }
 	latest_event &gg.Event = unsafe { 0 }
 }
 
-fn storm_default_event(e &gg.Event, mut app StormContext) {
+struct TouchList {
+pub:
+	count int
+	list []NodeV2D
+}
+
+fn storm_default_event(e &gg.Event, mut app AppContext) {
 	// Send the event down the nodes
 	app.win.latest_event = unsafe { e }
 	app.root.execute('event')
 }
 
-fn storm_default_frame(mut app StormContext) {
+fn storm_default_frame(mut app AppContext) {
 	// Emit update event
 	app.root.execute("update")
 
@@ -32,24 +48,47 @@ fn storm_default_frame(mut app StormContext) {
 }
 
 // Gets current window scaling
-pub fn (win StormWindow) get_app_scale() f32 {
+pub fn (win AppWindow) get_app_scale() f32 {
 	if win.gg.scale != 0 {
 		return win.gg.scale
 	}
 	return 1
 }
 
+// Gets current touches state
+pub fn (win AppWindow) get_touches() TouchList {
+	// Get data
+	mut result := []NodeV2D{}
+	scale := win.get_app_scale()
+	e := win.latest_event
+
+	// Build list
+	for i := 0; i < e.num_touches; i++ {
+		result << NodeV2D {
+			x: e.touches[i].pos_x / scale
+			y: e.touches[i].pos_y / scale
+		}
+	}
+
+	// Send result
+	return TouchList {
+		count: e.num_touches
+		list: result	
+	}
+}
+
 // Gets current mouse position
-pub fn (win StormWindow) get_mouse_pos() NodeV2D {
+pub fn (win AppWindow) get_mouse_pos() NodeV2D {
 	mut scale := win.get_app_scale()
+	e := win.latest_event
 	return NodeV2D{
-		x: win.latest_event.mouse_x / scale
-		y: win.latest_event.mouse_y / scale
+		x: e.mouse_x / scale
+		y: e.mouse_y / scale
 	}
 }
 
 // Gets current window size
-pub fn (mut win StormWindow) get_size() NodeV2D {
+pub fn (win AppWindow) get_size() NodeV2D {
 	mut size := win.gg.window_size()
 	return NodeV2D{
 		x: size.width + 1
@@ -58,7 +97,7 @@ pub fn (mut win StormWindow) get_size() NodeV2D {
 }
 
 // Initialises the window
-pub fn (mut win StormWindow) init(parent &StormContext, args StormWindowConfig) {
+pub fn (mut win AppWindow) init(parent &AppContext, args WindowConfig) {
 	win.gg = gg.new_context(
 		bg_color: gx.rgb(0xFF, 0xFF, 0x00)
 		width: args.width
@@ -77,6 +116,6 @@ pub fn (mut win StormWindow) init(parent &StormContext, args StormWindowConfig) 
 }
 
 // Runs the window loop
-pub fn (mut win StormWindow) run() {
+pub fn (mut win AppWindow) run() {
 	win.gg.run()
 }
