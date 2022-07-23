@@ -8,7 +8,7 @@ Currently in early development.
 
 The simplest way to install and use with your V installation is from VPM using:
 
-> v install ghostnear.storm
+> v install ghostnear.vstorm
 
 Then the library will be available for importing using:
 

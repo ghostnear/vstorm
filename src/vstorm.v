@@ -8,7 +8,7 @@ pub mut:
 
 // Struct that contains all the data about the app.
 [heap]
-struct AppContext {
+pub struct AppContext {
 pub mut:
 	win  &AppWindow
 	root &Node

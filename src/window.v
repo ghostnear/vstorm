@@ -103,8 +103,8 @@ pub fn (win AppWindow) get_size() NodeV2D {
 fn (mut win AppWindow) init(parent &AppContext, args WindowConfig) {
 	win.gg = gg.new_context(
 		bg_color: gx.rgb(0xFF, 0xFF, 0x00)
-		width: args.size.x
-		height: args.size.y
+		width: int(args.size.x)
+		height: int(args.size.y)
 		window_title: args.title
 		init_fn: args.init_fn
 		fullscreen: args.fullscreen
