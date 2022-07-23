@@ -25,3 +25,6 @@ Depending on your intent you might want to check out the [dev](docs/dev.md) docu
 ## Known issues and TODOs:
 
 - fix the multiply and divide function for NodeV2D
+
+## Things that use this:
+- [ghostnear/vstorm-calculator](https://github.com/ghostnear/vstorm-calculator)
