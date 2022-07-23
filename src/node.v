@@ -22,12 +22,12 @@ pub fn (mut e Node) add_component(what voidptr, str string) {
 
 // Checks if a component with a specific name exists.
 pub fn (mut e Node) has_component(str string) bool {
-	return e.components[str] != voidptr(0)
+	return e.components[str] != unsafe { nil }
 }
 
 // Deletes a component from the node.
 pub fn (mut e Node) delete_component(str string) {
-	e.components[str] = voidptr(0)
+	e.components[str] = unsafe { nil }
 }
 
 // Gets a specific component.
@@ -53,13 +53,13 @@ pub fn (mut e Node) add_child(mut new Node, str string) {
 
 // Returns if the child with the specified name exists.
 pub fn (mut e Node) has_child(str string) bool {
-	return e.children[str] != voidptr(0)
+	return e.children[str] != unsafe { nil }
 }
 
 // Removes a child with a specified name.
 pub fn (mut e Node) remove_child(str string) {
-	e.children[str].parent = voidptr(0)
-	e.children[str] = voidptr(0)
+	e.children[str].parent = unsafe { nil }
+	e.children[str] = unsafe { nil }
 }
 
 // Adds a method with a specified name.
