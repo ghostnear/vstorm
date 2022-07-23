@@ -1,29 +1,30 @@
 module vstorm
 
-// Used to initialise the framework
+// Used to initialise the framework.
 pub struct AppConfig {
 pub mut:
 	winconfig WindowConfig
 }
 
+// Struct that contains all the data about the app.
 [heap]
-pub struct AppContext {
+struct AppContext {
 pub mut:
-	win &AppWindow
+	win  &AppWindow
 	root &Node
 }
 
-// Runs the context
+// Runs the created app context.
 pub fn (mut app AppContext) run() {
 	app.win.run()
 }
 
-// Makes a new storm context for app usage
+// Creates a new app context.
 pub fn new_storm_context(args AppConfig) &AppContext {
 	// Declare all Storm things
 	mut app := &AppContext{
 		win: &AppWindow{}
-		root: &Node {}
+		root: &Node{}
 	}
 	app.root.context = app
 
