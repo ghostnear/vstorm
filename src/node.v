@@ -56,6 +56,11 @@ pub fn (mut e Node) has_child(str string) bool {
 	return e.children[str] != unsafe { nil }
 }
 
+// Gets a child with a specified name.
+pub fn (mut e Node) get_child(str string) &Node {
+	return e.children[str]
+}
+
 // Removes a child with a specified name.
 pub fn (mut e Node) remove_child(str string) {
 	e.children[str].parent = unsafe { nil }

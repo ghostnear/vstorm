@@ -9,6 +9,7 @@ pub mut:
 	title      string
 	size       NodeV2D
 	fullscreen bool
+	ui_mode    bool
 	init_fn    fn (&AppContext)
 }
 
@@ -108,6 +109,7 @@ fn (mut win AppWindow) init(parent &AppContext, args WindowConfig) {
 		window_title: args.title
 		init_fn: args.init_fn
 		fullscreen: args.fullscreen
+		ui_mode: args.ui_mode
 		frame_fn: storm_default_frame
 		event_fn: storm_default_event
 		font_bytes_normal: $embed_file('../assets/SourceCodePro-Regular.otf').to_bytes()
