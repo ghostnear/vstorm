@@ -24,7 +24,8 @@ Depending on your intent you might want to check out the [dev](docs/dev.md) docu
 
 ## Known issues and TODOs:
 
-- nothing yet.
+- figure out mobile touches and make them easier to use trough this.
+- fix mobile scaling issues (seems to happen only with text)
 
 ## Things that use this:
 - [ghostnear/vstorm-calculator](https://github.com/ghostnear/vstorm-calculator)
