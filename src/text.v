@@ -9,7 +9,7 @@ pub mut:
 	size           int
 	italic         bool
 	relative       bool
-	text		   string
+	text           string
 	position       NodeV2D
 	align          gx.HorizontalAlign
 	vertical_align gx.VerticalAlign
@@ -44,17 +44,13 @@ pub fn new_text_node(config TextConfig, text string) &Node {
 
 		// Parent is guaranteed to be a button so get the properties so we know where to draw the text
 		mut pos := (&NodeV2D(node.get_component('position'))).get_relative_to(w_size)
-		ggc.draw_text(
-			int(pos.x), int(pos.y),
-			t.text,
-			gx.TextCfg{
-				color: t.color
-				size: int(t.size * scale)
-				italic: t.italic
-				align: t.align
-				vertical_align: t.vertical_align
-			}
-		)
+		ggc.draw_text(int(pos.x), int(pos.y), t.text, gx.TextCfg{
+			color: t.color
+			size: int(t.size * scale)
+			italic: t.italic
+			align: t.align
+			vertical_align: t.vertical_align
+		})
 	}, 'draw')
 	return node
 }
