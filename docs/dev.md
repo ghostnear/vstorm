@@ -1,9 +1,10 @@
-# VStorm
+# module ghostnear.vstorm
 
 ## Contents
-- [storm_default_event](#storm_default_event)
-- [new_storm_context](#new_storm_context)
 - [storm_default_frame](#storm_default_frame)
+- [new_text_node](#new_text_node)
+- [new_storm_context](#new_storm_context)
+- [storm_default_event](#storm_default_event)
 - [Node](#Node)
   - [add_component](#add_component)
   - [has_component](#has_component)
@@ -12,6 +13,7 @@
   - [change_context](#change_context)
   - [add_child](#add_child)
   - [has_child](#has_child)
+  - [get_child](#get_child)
   - [remove_child](#remove_child)
   - [add_function](#add_function)
   - [execute](#execute)
@@ -22,11 +24,12 @@
   - [get_relative_to](#get_relative_to)
 - [NodeV2D](#NodeV2D)
   - [divide_by](#divide_by)
-  - [multiply_by_float](#multiply_by_float)
   - [multiply_by](#multiply_by)
   - [-](#-)
   - [+](#+)
   - [get_relative_to](#get_relative_to)
+- [AppContext](#AppContext)
+  - [run](#run)
 - [AppWindow](#AppWindow)
   - [get_app_scale](#get_app_scale)
   - [get_touches](#get_touches)
@@ -34,18 +37,26 @@
   - [get_size](#get_size)
   - [init](#init)
   - [run](#run)
-- [AppContext](#AppContext)
-  - [run](#run)
 - [AppConfig](#AppConfig)
+- [TextConfig](#TextConfig)
 - [TouchList](#TouchList)
 - [WindowConfig](#WindowConfig)
 
-## storm_default_event
+## storm_default_frame
 ```v
-fn storm_default_event(e &gg.Event, mut app AppContext)
+fn storm_default_frame(mut app AppContext)
 ```
 
-Function run by default when an event occured. (internal use only)
+Function run by default when a frame needs to be shown. (internal use only)
+
+[[Return to contents]](#Contents)
+
+## new_text_node
+```v
+pub fn new_text_node(config TextConfig, text string) &Node
+```
+
+Creates a new text node with the specified config and string.  
 
 [[Return to contents]](#Contents)
 
@@ -58,12 +69,12 @@ Creates a new app context.
 
 [[Return to contents]](#Contents)
 
-## storm_default_frame
+## storm_default_event
 ```v
-fn storm_default_frame(mut app AppContext)
+fn storm_default_event(e &gg.Event, mut app AppContext)
 ```
 
-Function run by default when a frame needs to be shown. (internal use only)
+Function run by default when an event occured. (internal use only)
 
 [[Return to contents]](#Contents)
 
@@ -149,6 +160,15 @@ pub fn (mut e Node) has_child(str string) bool
 ```
 
 Returns if the child with the specified name exists.  
+
+[[Return to contents]](#Contents)
+
+## get_child
+```v
+pub fn (mut e Node) get_child(str string) &Node
+```
+
+Gets a child with a specified name.  
 
 [[Return to contents]](#Contents)
 
@@ -248,31 +268,19 @@ Can be relative to another 2D vertex.
 
 ## divide_by
 ```v
-pub fn (a NodeV2D) divide_by(b int) NodeV2D
+pub fn (a NodeV2D) divide_by<T>(b T) NodeV2D
 ```
 
-Divide the vertex by an integer scalar.  
-TODO: make this accept any number type
-
-[[Return to contents]](#Contents)
-
-## multiply_by_float
-```v
-pub fn (a NodeV2D) multiply_by_float(b f32) NodeV2D
-```
-
-Mulitiply the vertex by a f32 scalar.  
-TODO: make this accept any number type
+Divide the vertex by a scalar.  
 
 [[Return to contents]](#Contents)
 
 ## multiply_by
 ```v
-pub fn (a NodeV2D) multiply_by(b int) NodeV2D
+pub fn (a NodeV2D) multiply_by<T>(b T) NodeV2D
 ```
 
-Mulitiply the vertex by an integer scalar.  
-TODO: make this accept any number type
+Mulitiply the vertex by a scalar.  
 
 [[Return to contents]](#Contents)
 
@@ -301,6 +309,29 @@ pub fn (n NodeV2D) get_relative_to(what NodeV2D) NodeV2D
 
 Returns a modified version of the current vertex relative to the argument vertex.  
 This happens only if the relative flag is set to true, otherwise the original is returned.  
+
+[[Return to contents]](#Contents)
+
+## AppContext
+```v
+[heap]
+pub struct AppContext {
+pub mut:
+	win  &AppWindow
+	root &Node
+}
+```
+
+Struct that contains all the data about the app.  
+
+[[Return to contents]](#Contents)
+
+## run
+```v
+pub fn (mut app AppContext) run()
+```
+
+Runs the created app context.  
 
 [[Return to contents]](#Contents)
 
@@ -372,29 +403,6 @@ Starts the window.
 
 [[Return to contents]](#Contents)
 
-## AppContext
-```v
-[heap]
-pub struct AppContext {
-pub mut:
-	win  &AppWindow
-	root &Node
-}
-```
-
-Struct that contains all the data about the app.  
-
-[[Return to contents]](#Contents)
-
-## run
-```v
-pub fn (mut app AppContext) run()
-```
-
-Runs the created app context.  
-
-[[Return to contents]](#Contents)
-
 ## AppConfig
 ```v
 pub struct AppConfig {
@@ -404,6 +412,25 @@ pub mut:
 ```
 
 Used to initialise the framework.  
+
+[[Return to contents]](#Contents)
+
+## TextConfig
+```v
+pub struct TextConfig {
+pub mut:
+	color          gx.Color
+	size           int
+	italic         bool
+	relative       bool
+	text           string
+	position       NodeV2D
+	align          gx.HorizontalAlign
+	vertical_align gx.VerticalAlign
+}
+```
+
+Config for the text to draw with.  
 
 [[Return to contents]](#Contents)
 
@@ -427,6 +454,7 @@ pub mut:
 	title      string
 	size       NodeV2D
 	fullscreen bool
+	ui_mode    bool
 	init_fn    fn (&AppContext)
 }
 ```
@@ -435,4 +463,4 @@ Used to initialise the window.
 
 [[Return to contents]](#Contents)
 
-#### Generated by vdoc on: 23 Jul 2022 14:27:53
+#### Powered by vdoc. Generated on: 26 Jul 2022 15:24:36

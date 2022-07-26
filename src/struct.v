@@ -11,27 +11,16 @@ pub mut:
 
 // ! Operations do not care about relativeness, make sure you use .get_relative_to() !
 
-// Divide the vertex by an integer scalar.
-// TODO: make this accept any number type
-pub fn (a NodeV2D) divide_by(b int) NodeV2D {
+// Divide the vertex by a scalar.
+pub fn (a NodeV2D) divide_by<T>(b T) NodeV2D {
 	return NodeV2D{
 		x: a.x / b
 		y: a.y / b
 	}
 }
 
-// Mulitiply the vertex by a f32 scalar.
-// TODO: make this accept any number type
-pub fn (a NodeV2D) multiply_by_float(b f32) NodeV2D {
-	return NodeV2D{
-		x: a.x * b
-		y: a.y * b
-	}
-}
-
-// Mulitiply the vertex by an integer scalar.
-// TODO: make this accept any number type
-pub fn (a NodeV2D) multiply_by(b int) NodeV2D {
+// Mulitiply the vertex by a scalar.
+pub fn (a NodeV2D) multiply_by<T>(b T) NodeV2D {
 	return NodeV2D{
 		x: a.x * b
 		y: a.y * b

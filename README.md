@@ -2,7 +2,7 @@
 
 ### A simple app framework for V based on nodes.
 
-Currently in early development.
+Currently in early development, so things can and will change suddenly untill a stable version is reached.
 
 ## How to install
 
@@ -12,7 +12,7 @@ The simplest way to install and use with your V installation is from VPM using:
 
 Then the library will be available for importing using:
 
-> import vstorm
+> import ghostnear.vstorm
 
 An alternative way to do this is by adding the repo as a submodule in your modules/ folder using GitHub.
 
