@@ -2,7 +2,7 @@
 
 ### A simple app framework for V based on nodes.
 
-Currently in early development, so things can and will change suddenly untill a stable version is reached.
+Currently in early development, so things can and will change suddenly until a stable version is reached.
 
 ## How to install
 
@@ -29,3 +29,4 @@ Depending on your intent you might want to check out the [dev](docs/dev.md) docu
 
 ## Things that use this:
 - [ghostnear/vstorm-calculator](https://github.com/ghostnear/vstorm-calculator)
+- [ghostnear/vstorm-tic-tac-toe](https://github.com/ghostnear/vstorm-tic-tac-toe)

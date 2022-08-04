@@ -8,6 +8,7 @@
   - [get_touches](#get_touches)
   - [get_mouse_pos](#get_mouse_pos)
   - [get_size](#get_size)
+  - [get_scale_relative_to](#get_scale_relative_to)
 - [AppContext](#AppContext)
   - [run](#run)
 - [AppConfig](#AppConfig)
@@ -53,6 +54,19 @@ Creates a new text node with the specified config and string.
 [[Return to contents]](#Contents)
 
 ## AppWindow
+```v
+struct AppWindow {
+pub mut:
+	gg           &gg.Context = unsafe { 0 }
+	latest_event &gg.Event   = unsafe { 0 }
+	show_fps     bool
+}
+```
+
+Struct containing all the info about the window
+
+[[Return to contents]](#Contents)
+
 ## get_app_scale
 ```v
 fn (win AppWindow) get_app_scale() f32
@@ -86,6 +100,15 @@ fn (win AppWindow) get_size() NodeV2D
 ```
 
 Gets current window size.  
+
+[[Return to contents]](#Contents)
+
+## get_scale_relative_to
+```v
+fn (win AppWindow) get_scale_relative_to(what NodeV2D) f32
+```
+
+Gets scale compared to a specific size.  
 
 [[Return to contents]](#Contents)
 
@@ -364,4 +387,4 @@ Used to initialise the window.
 
 [[Return to contents]](#Contents)
 
-#### Powered by vdoc. Generated on: 26 Jul 2022 15:23:33
+#### Powered by vdoc. Generated on: 4 Aug 2022 16:57:21

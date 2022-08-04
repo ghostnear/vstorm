@@ -2,6 +2,7 @@ module vstorm
 
 import gx
 import gg
+import math
 
 // Used to initialise the window.
 pub struct WindowConfig {
@@ -15,10 +16,11 @@ pub mut:
 
 // Struct containing all the info about the window
 [heap]
-struct AppWindow {
+pub struct AppWindow {
 pub mut:
 	gg           &gg.Context = unsafe { 0 }
 	latest_event &gg.Event   = unsafe { 0 }
+	show_fps     bool
 }
 
 // Struct containing all the info about the touches.
@@ -33,6 +35,16 @@ fn storm_default_event(e &gg.Event, mut app AppContext) {
 	// Send the event down the nodes
 	app.win.latest_event = unsafe { e }
 	app.root.execute('event')
+
+	// Do default bindings
+	match e.typ {
+		.key_down {
+			if e.key_code == .f3 {
+				app.win.show_fps = !app.win.show_fps
+			}
+		}
+		else {}
+	}
 }
 
 // Function run by default when a frame needs to be shown. (internal use only)
@@ -47,6 +59,11 @@ fn storm_default_frame(mut app AppContext) {
 
 	// Emit draw event
 	app.root.execute('draw')
+
+	// If FPS needs to be shown, do so
+	if app.win.show_fps {
+		ggc.show_fps()
+	}
 
 	ggc.end()
 }
@@ -98,6 +115,12 @@ pub fn (win AppWindow) get_size() NodeV2D {
 		x: size.width + 1
 		y: size.height + 1
 	}
+}
+
+// Gets scale compared to a specific size.
+pub fn (win AppWindow) get_scale_relative_to(what NodeV2D) f32 {
+	mut size := win.get_size()
+	return math.min(size.x / what.x, size.y / what.y)
 }
 
 // Initialises the app window using the specified window config.
