@@ -15,6 +15,7 @@ pub mut:
 }
 
 // Runs the created app context.
+[inline]
 pub fn (mut app AppContext) run() {
 	app.win.run()
 }

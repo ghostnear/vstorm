@@ -118,6 +118,7 @@ pub fn (win AppWindow) get_size() NodeV2D {
 }
 
 // Gets scale compared to a specific size.
+[inline]
 pub fn (win AppWindow) get_scale_relative_to(what NodeV2D) f32 {
 	mut size := win.get_size()
 	return math.min(size.x / what.x, size.y / what.y)
@@ -144,6 +145,7 @@ fn (mut win AppWindow) init(parent &AppContext, args WindowConfig) {
 }
 
 // Starts the window.
+[inline]
 fn (mut win AppWindow) run() {
 	win.gg.run()
 }

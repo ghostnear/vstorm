@@ -12,6 +12,7 @@ pub mut:
 // ! Operations do not care about relativeness, make sure you use .get_relative_to() !
 
 // Divide the vertex by a scalar.
+[inline]
 pub fn (a NodeV2D) divide_by<T>(b T) NodeV2D {
 	return NodeV2D{
 		x: a.x / b
@@ -20,6 +21,7 @@ pub fn (a NodeV2D) divide_by<T>(b T) NodeV2D {
 }
 
 // Mulitiply the vertex by a scalar.
+[inline]
 pub fn (a NodeV2D) multiply_by<T>(b T) NodeV2D {
 	return NodeV2D{
 		x: a.x * b
@@ -28,6 +30,7 @@ pub fn (a NodeV2D) multiply_by<T>(b T) NodeV2D {
 }
 
 // Subtract a vertex from another.
+[inline]
 fn (a NodeV2D) - (b NodeV2D) NodeV2D {
 	return NodeV2D{
 		x: a.x - b.x
@@ -36,6 +39,7 @@ fn (a NodeV2D) - (b NodeV2D) NodeV2D {
 }
 
 // Add two vertexes.
+[inline]
 fn (a NodeV2D) + (b NodeV2D) NodeV2D {
 	return NodeV2D{
 		x: a.x + b.x
@@ -65,6 +69,7 @@ pub mut:
 }
 
 // Checks if a point represented by a 2D vertex is inside the rectangle.
+[inline]
 pub fn (n NodeR2D) check_inside(what NodeV2D) bool {
 	return what.x >= n.pos.x && what.y >= n.pos.y && what.x <= n.pos.x + n.siz.x
 		&& what.y <= n.pos.y + n.siz.y
@@ -72,6 +77,7 @@ pub fn (n NodeR2D) check_inside(what NodeV2D) bool {
 
 // Returns a modified version of the current rectangle relative to the argument vertex.
 // It can return the original rectangle if the relative flag is not set for both the size and position.
+[inline]
 pub fn (n NodeR2D) get_relative_to(what NodeV2D) NodeR2D {
 	return NodeR2D{
 		pos: n.pos.get_relative_to(what)
