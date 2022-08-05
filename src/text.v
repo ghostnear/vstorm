@@ -6,7 +6,7 @@ import gx
 pub struct TextConfig {
 pub mut:
 	color          gx.Color
-	size           int
+	size           f32
 	italic         bool
 	relative       bool
 	text           string
@@ -31,22 +31,26 @@ pub fn new_text_node(config TextConfig, text string) &Node {
 		text: text
 		align: config.align
 		vertical_align: config.vertical_align
-	}, 'cfg')
+	}, 'config')
 	node.add_function(fn (mut node Node) {
-		// Get text config
-		t := &TextConfig(node.get_component('cfg'))
-
 		// Get context info
 		mut win := node.context.win
 		mut ggc := win.gg
 		w_size := win.get_size()
 		scale := win.get_app_scale()
+	
+		// Get text config
+		t := &TextConfig(node.get_component('config'))
 
 		// Parent is guaranteed to be a button so get the properties so we know where to draw the text
 		mut pos := (&NodeV2D(node.get_component('position'))).get_relative_to(w_size)
-		ggc.draw_text(int(pos.x), int(pos.y), t.text, gx.TextCfg{
+
+		// TODO: replace this workaround when the standard gg module works
+		ggc.draw_text(
+			int(pos.x), int(pos.y),
+			t.text, gx.TextCfg{
 			color: t.color
-			size: int(t.size * scale)
+			size: int(t.size * win.force_scale / scale)
 			italic: t.italic
 			align: t.align
 			vertical_align: t.vertical_align

@@ -21,6 +21,9 @@ pub mut:
 	gg           &gg.Context = unsafe { 0 }
 	latest_event &gg.Event   = unsafe { 0 }
 	show_fps     bool
+
+	// Mostly internal use
+	force_scale  f32 = 1
 }
 
 // Struct containing all the info about the touches.
@@ -124,8 +127,36 @@ pub fn (win AppWindow) get_scale_relative_to(what NodeV2D) f32 {
 	return math.min(size.x / what.x, size.y / what.y)
 }
 
+// Gets the screen size.
+pub fn get_screen_size() NodeV2D {
+	screen_size := gg.screen_size()
+	return NodeV2D {
+		x: screen_size.width
+		y: screen_size.height
+	}
+}
+
 // Initialises the app window using the specified window config.
-fn (mut win AppWindow) init(parent &AppContext, args WindowConfig) {
+fn (mut win AppWindow) init(parent &AppContext, mut args WindowConfig) {
+	// Force mobile fullscreen
+	$if android || ios {
+		args.fullscreen = true
+
+		// TODO: replace with the bellow commented code when the gg.screen_size() will work on android
+		win.force_scale = 540 / args.size.x
+	}
+
+	// Correct sizes if fullscreen
+	if args.fullscreen == true {
+		screen_size := get_screen_size()
+		//win.force_scale = math.min(
+			//screen_size.x / args.size.x,
+			//screen_size.y / args.size.y
+		//)
+		args.size = screen_size
+	}
+	
+	// Create context
 	win.gg = gg.new_context(
 		bg_color: gx.rgb(0xFF, 0xFF, 0x00)
 		width: int(args.size.x)

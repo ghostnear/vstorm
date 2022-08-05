@@ -1,10 +1,11 @@
 # module ghostnear.vstorm
 
 ## Contents
-- [storm_default_frame](#storm_default_frame)
 - [new_text_node](#new_text_node)
-- [new_storm_context](#new_storm_context)
 - [storm_default_event](#storm_default_event)
+- [storm_default_frame](#storm_default_frame)
+- [get_screen_size](#get_screen_size)
+- [new_storm_context](#new_storm_context)
 - [Node](#Node)
   - [add_component](#add_component)
   - [has_component](#has_component)
@@ -30,6 +31,7 @@
   - [get_relative_to](#get_relative_to)
 - [AppContext](#AppContext)
   - [run](#run)
+- [AppConfig](#AppConfig)
 - [AppWindow](#AppWindow)
   - [get_app_scale](#get_app_scale)
   - [get_touches](#get_touches)
@@ -38,19 +40,9 @@
   - [get_scale_relative_to](#get_scale_relative_to)
   - [init](#init)
   - [run](#run)
-- [AppConfig](#AppConfig)
 - [TextConfig](#TextConfig)
 - [TouchList](#TouchList)
 - [WindowConfig](#WindowConfig)
-
-## storm_default_frame
-```v
-fn storm_default_frame(mut app AppContext)
-```
-
-Function run by default when a frame needs to be shown. (internal use only)
-
-[[Return to contents]](#Contents)
 
 ## new_text_node
 ```v
@@ -61,21 +53,39 @@ Creates a new text node with the specified config and string.
 
 [[Return to contents]](#Contents)
 
-## new_storm_context
-```v
-pub fn new_storm_context(args AppConfig) &AppContext
-```
-
-Creates a new app context.  
-
-[[Return to contents]](#Contents)
-
 ## storm_default_event
 ```v
 fn storm_default_event(e &gg.Event, mut app AppContext)
 ```
 
 Function run by default when an event occured. (internal use only)
+
+[[Return to contents]](#Contents)
+
+## storm_default_frame
+```v
+fn storm_default_frame(mut app AppContext)
+```
+
+Function run by default when a frame needs to be shown. (internal use only)
+
+[[Return to contents]](#Contents)
+
+## get_screen_size
+```v
+pub fn get_screen_size() NodeV2D
+```
+
+Gets the screen size.  
+
+[[Return to contents]](#Contents)
+
+## new_storm_context
+```v
+pub fn new_storm_context(mut args AppConfig) &AppContext
+```
+
+Creates a new app context.  
 
 [[Return to contents]](#Contents)
 
@@ -336,6 +346,18 @@ Runs the created app context.
 
 [[Return to contents]](#Contents)
 
+## AppConfig
+```v
+pub struct AppConfig {
+pub mut:
+	winconfig WindowConfig
+}
+```
+
+Used to initialise the framework.  
+
+[[Return to contents]](#Contents)
+
 ## AppWindow
 ```v
 [heap]
@@ -344,6 +366,8 @@ pub mut:
 	gg           &gg.Context = unsafe { 0 }
 	latest_event &gg.Event   = unsafe { 0 }
 	show_fps     bool
+	// Mostly internal use
+	force_scale f32 = 1
 }
 ```
 
@@ -398,7 +422,7 @@ Gets scale compared to a specific size.
 
 ## init
 ```v
-fn (mut win AppWindow) init(parent &AppContext, args WindowConfig)
+fn (mut win AppWindow) init(parent &AppContext, mut args WindowConfig)
 ```
 
 Initialises the app window using the specified window config.  
@@ -414,24 +438,12 @@ Starts the window.
 
 [[Return to contents]](#Contents)
 
-## AppConfig
-```v
-pub struct AppConfig {
-pub mut:
-	winconfig WindowConfig
-}
-```
-
-Used to initialise the framework.  
-
-[[Return to contents]](#Contents)
-
 ## TextConfig
 ```v
 pub struct TextConfig {
 pub mut:
 	color          gx.Color
-	size           int
+	size           f32
 	italic         bool
 	relative       bool
 	text           string
@@ -474,4 +486,4 @@ Used to initialise the window.
 
 [[Return to contents]](#Contents)
 
-#### Powered by vdoc. Generated on: 4 Aug 2022 16:57:51
+#### Powered by vdoc. Generated on: 6 Aug 2022 01:17:55

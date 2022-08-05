@@ -21,7 +21,7 @@ pub fn (mut app AppContext) run() {
 }
 
 // Creates a new app context.
-pub fn new_storm_context(args AppConfig) &AppContext {
+pub fn new_storm_context(mut args AppConfig) &AppContext {
 	// Declare all Storm things
 	mut app := &AppContext{
 		win: &AppWindow{}
@@ -30,7 +30,7 @@ pub fn new_storm_context(args AppConfig) &AppContext {
 	app.root.context = app
 
 	// Init all modules
-	app.win.init(app, args.winconfig)
+	app.win.init(app, mut args.winconfig)
 
 	return app
 }
